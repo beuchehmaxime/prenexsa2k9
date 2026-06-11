@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <style>
 /* ════════════════════════════════════════════════════════════
    PRENEXSA REUNION 2026 — tokens (client-approved design)
@@ -206,6 +207,27 @@ h1 .l3{display:block;font-size:clamp(3rem,14vw,6.4rem);color:var(--pink);letter-
 .jewel p{font-size:.92rem}
 [role="tabpanel"][hidden]{display:none}
 
+/* ───────── weekly unlock ───────── */
+.unlock{padding-top:56px}
+.unlock-grid{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.drop{background:var(--grape);border-radius:var(--radius);padding:20px 18px;position:relative;overflow:hidden;transition:transform .15s}
+.drop:nth-child(odd){transform:rotate(-.5deg)}
+.drop:nth-child(even){transform:rotate(.5deg)}
+.drop .d-when{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac);font-weight:700}
+.drop .d-title{font-family:var(--display);text-transform:uppercase;font-size:1.4rem;line-height:1.05;margin:6px 0 4px}
+.drop.locked .d-title{color:var(--lilac)}
+.drop.open .d-title{color:var(--gold)}
+.drop .d-body{font-size:.95rem;color:var(--paper)}
+.drop .d-lockline{display:flex;align-items:center;gap:9px;color:var(--lilac);font-size:.9rem;margin-top:6px}
+.drop .d-lockline b{font-family:var(--display);color:var(--paper);font-variant-numeric:tabular-nums}
+.drop .d-tag{position:absolute;top:14px;right:14px;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;border-radius:999px;padding:5px 11px}
+.drop.locked .d-tag{background:var(--plum);color:var(--lilac)}
+.drop.open .d-tag{background:var(--gold);color:var(--ink)}
+.drop.next{border:2px solid var(--pink)}
+.drop.open{animation:dropreveal .5s ease}
+@keyframes dropreveal{0%{transform:scale(.97)}60%{transform:scale(1.02)}100%{transform:scale(1)}}
+
 /* ───────── fee ───────── */
 .fee{padding:40px 0 0}
 .fee-card{background:var(--gold);color:var(--ink);border-radius:var(--radius);padding:30px 24px;text-align:center;transform:rotate(1deg)}
@@ -322,6 +344,63 @@ input[type=range]{width:min(220px,60vw);accent-color:var(--pink)}
   background:var(--plum);border-radius:999px;padding:10px 6px;transition:background .2s}
 .c-btn:hover{background:var(--pink)}
 
+/* ───────── surprises hub ───────── */
+.hub-card{background:var(--grape);border-radius:var(--radius);padding:24px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.hub-card:nth-child(odd){transform:rotate(-.5deg)}
+.hub-card:nth-child(even){transform:rotate(.5deg)}
+.hub-card h3{font-family:var(--display);text-transform:uppercase;font-size:1.5rem;line-height:1;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.hub-card .hc-lead{color:var(--lilac);font-size:.92rem;margin-bottom:16px}
+.hub-card .setup{background:var(--ink);border-radius:14px;padding:14px 16px;margin-top:14px;text-align:left;font-size:.86rem;color:var(--lilac)}
+.hub-card .setup b{color:var(--gold)}
+.hub-card .setup ol{margin:8px 0 0 18px;line-height:1.8}
+.link-field{display:flex;gap:8px;max-width:340px;margin:0 auto;width:100%}
+.link-field input{flex:1;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:11px 13px;font-size:.9rem;font-family:var(--body)}
+.map-wrap{height:340px;border-radius:16px;overflow:hidden;margin-top:6px;border:2px solid var(--plum)}
+#capForm .field{max-width:100%;margin:0 0 12px}
+#capForm textarea{width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:14px;padding:14px 16px;font-size:1rem;font-family:var(--body);min-height:120px;resize:vertical}
+.cap-count{text-align:center;color:var(--lilac);font-size:.9rem;margin:8px 0 0}
+.cap-count b{color:var(--gold);font-family:var(--display);font-size:1.3rem}
+.cap-reveal{margin-top:18px;border-top:2px dashed var(--plum);padding-top:18px}
+.cap-lock-title{text-align:center;font-family:var(--display);text-transform:uppercase;font-size:1.05rem;letter-spacing:.06em}
+.cap-lock-sub{text-align:center;color:var(--lilac);font-size:.84rem;margin-top:12px}
+.big-count{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.bc-unit{background:var(--ink);border-radius:16px;padding:14px 6px 9px;width:clamp(62px,20vw,108px);text-align:center}
+.bc-unit b{display:block;font-family:var(--display);font-weight:400;color:var(--gold);line-height:1;text-align:center;
+  font-size:clamp(2.1rem,9vw,3.6rem);font-variant-numeric:tabular-nums}
+.bc-unit span{display:block;text-align:center;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac)}
+.cap-letters{display:flex;flex-direction:column;gap:12px;margin-top:14px;text-align:left}
+.cap-letter{background:var(--ink);border-radius:14px;padding:16px 18px}
+.cap-letter .cl-msg{font-size:.96rem;line-height:1.6}
+.cap-letter .cl-by{font-family:var(--script);color:var(--gold);font-size:1.3rem;margin-top:8px}
+.tag-prev{background:var(--ink);border-radius:16px;padding:8px;margin:14px auto 0;max-width:420px}
+.tag-prev canvas{width:100%;height:auto;border-radius:10px;display:block}
+.song-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto}
+.song-row{display:flex;align-items:center;gap:10px;background:var(--ink);border-radius:12px;padding:11px 14px;text-align:left;animation:dropreveal .3s ease}
+.song-row .sr-i{font-family:var(--display);color:var(--gold);font-size:.9rem;min-width:24px}
+.song-row .sr-t{font-size:.92rem}
+.song-row .sr-b{margin-left:auto;font-size:.7rem;color:var(--lilac)}
+.photo-wall{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.photo-wall img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:var(--ink)}
+.admin-zone{margin-top:16px;border-top:2px dashed var(--plum);padding-top:14px;text-align:center}
+/* admin dashboard */
+.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:560px){.admin-grid{grid-template-columns:repeat(3,1fr)}}
+.admin-photo{background:var(--grape);border-radius:16px;padding:10px;text-align:center}
+.admin-photo img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:var(--ink)}
+.admin-photo .ap-meta{font-size:.66rem;color:var(--lilac);margin:8px 0 8px}
+.admin-photo .ap-dl{width:100%;font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:.74rem;
+  color:var(--ink);background:var(--gold);border-radius:999px;padding:9px;transition:filter .2s}
+.admin-photo .ap-dl:active{filter:brightness(.92)}
+.admin-list{display:flex;flex-direction:column;gap:9px}
+.admin-item{display:flex;align-items:center;gap:12px;background:var(--grape);border-radius:14px;padding:13px 15px;text-align:left}
+.admin-item .ai-i{font-family:var(--display);color:var(--gold);min-width:26px}
+.admin-item .ai-main{flex:1}
+.admin-item .ai-main b{color:var(--paper)}
+.admin-item .ai-sub{color:var(--lilac);font-size:.82rem}
+.admin-item .ai-dl{flex:none;font-size:.72rem;font-weight:700;color:var(--paper);background:var(--plum);border-radius:999px;padding:9px 13px;transition:background .2s}
+.admin-item .ai-dl:hover{background:var(--pink)}
+.admin-empty{text-align:center;color:var(--lilac);padding:34px 12px}
+
 /* ───────── footer ───────── */
 footer{padding-top:40px;padding-bottom:64px;text-align:center;color:var(--lilac);font-size:.88rem}
 footer .org{margin-bottom:14px;line-height:2.1}
@@ -355,15 +434,18 @@ footer .tag{font-family:var(--script);color:var(--gold);font-size:2rem;margin-to
   <button data-go="#/" role="menuitem"><span class="di">🏠</span> Home</button>
   <button data-go="#/flyer" role="menuitem"><span class="di">🎟️</span> Make My Flyer</button>
   <button data-go="#/pay" role="menuitem"><span class="di">💰</span> How to Pay</button>
+  <button data-go="#/surprises" role="menuitem"><span class="di">🎁</span> Surprises Hub</button>
   <button data-go="#/gallery" role="menuitem"><span class="di">👥</span> Who's Coming</button>
   <div class="dd-sep"></div>
   <p class="dd-lab">On this page</p>
   <button data-go="#programme" role="menuitem"><span class="di">🗓</span> The Programme</button>
+  <button data-go="#unlock" role="menuitem"><span class="di">🎁</span> Weekly Drops</button>
   <button data-go="#officialflyer" role="menuitem"><span class="di">📣</span> Official Flyer</button>
   <button data-go="#rsvp" role="menuitem"><span class="di">✅</span> Lock Your Spot</button>
   <button data-go="#contacts" role="menuitem"><span class="di">📞</span> Contacts</button>
   <div class="dd-sep"></div>
   <a href="#" id="ddShare" target="_blank" rel="noopener" role="menuitem"><span class="di">💬</span> Share on WhatsApp</a>
+  <button data-go="#/admin" role="menuitem" style="color:var(--lilac)"><span class="di">🔒</span> Committee</button>
 </div>
 
 <!-- ════════════════════════════ HOME SCREEN ════════════════════════════ -->
@@ -487,6 +569,14 @@ footer .tag{font-family:var(--script);color:var(--gold);font-size:2rem;margin-to
     </div>
   </section>
 </main>
+
+<section class="unlock wrap" id="unlock" aria-label="Weekly reveals" style="text-align:center">
+  <p class="kicker">A new surprise every week</p>
+  <h2>The Countdown Drops</h2>
+  <p class="screen-lead" style="margin-bottom:20px">Check back each week — something new unlocks as we get closer. Locked until its day.</p>
+  <div class="unlock-grid" id="dropGrid" style="text-align:left"></div>
+  <button class="btn btn-gold" data-go="#/surprises" style="margin-top:22px">Open the Surprises Hub →</button>
+</section>
 
 <section class="flyer-sec wrap" id="officialflyer" aria-label="Official flyer">
   <p class="kicker">Send it to the group chat</p>
@@ -665,6 +755,158 @@ footer .tag{font-family:var(--script);color:var(--gold);font-size:2rem;margin-to
   </div>
 </div><!-- /pay -->
 
+<!-- ════════════════════════════ SURPRISES HUB SCREEN ════════════════════════════ -->
+<div class="screen" id="screen-surprises">
+  <div class="wrap">
+    <div class="screen-head">
+      <button class="backlink" data-go="#/">← Back to home</button>
+      <p class="kicker">The fun extras</p>
+      <h2>Surprises Hub</h2>
+      <p class="screen-lead">Everything that makes this reunion legendary — photos, music, memories and more.</p>
+    </div>
+
+    <!-- WHERE ARE WE NOW MAP -->
+    <div class="hub-card">
+      <h3>🗺️ Where Are We Now?</h3>
+      <p class="hc-lead">A pin for every city the 9th Batch is travelling from. Add yours by making your flyer with your city.</p>
+      <div class="map-wrap" id="map"></div>
+      <p class="cap-count" style="margin-top:12px"><b id="mapCount">0</b> cities on the map so far</p>
+    </div>
+
+    <!-- PHOTO DROP (database-backed) -->
+    <div class="hub-card">
+      <h3>📸 Weekend Photo Drop</h3>
+      <p class="hc-lead">Share your favourite shots straight to the batch wall. Everyone's photos, one place.</p>
+      <label class="btn btn-pink" for="photoDropInput" style="max-width:300px;width:100%;margin:0 auto;display:flex">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg>
+        Add a photo
+      </label>
+      <input type="file" id="photoDropInput" accept="image/*" style="display:none">
+      <p class="cap-count" style="margin-top:12px"><b id="photoCount">0</b> photos shared</p>
+      <p class="formmsg" id="photoDropMsg" role="status" style="text-align:center"></p>
+      <div class="photo-wall" id="photoWall"></div>
+      <div class="admin-zone" id="photoAdminZone">
+        <button class="btn btn-plain btn-sm" data-go="#/admin">🔒 Committee dashboard</button>
+      </div>
+    </div>
+
+    <!-- SATURDAY PLAYLIST (database-backed) -->
+    <div class="hub-card">
+      <h3>🎶 The Saturday Playlist</h3>
+      <p class="hc-lead">Built by the batch. Drop your jams — the social-night playlist is made from your requests.</p>
+      <div class="link-field" style="max-width:380px">
+        <input type="text" id="songInput" maxlength="80" placeholder="Song name — Artist">
+        <button class="btn btn-gold btn-sm" id="songAdd" style="padding:11px 16px">Add</button>
+      </div>
+      <p class="cap-count" style="margin-top:12px"><b id="songCount">0</b> songs on the list</p>
+      <div class="song-list" id="songList"></div>
+      <div class="admin-zone" id="songAdminZone">
+        <button class="btn btn-plain btn-sm" data-go="#/admin">🔒 Committee dashboard</button>
+      </div>
+    </div>
+
+    <!-- TIME CAPSULE -->
+    <div class="hub-card">
+      <h3>💌 Time-Capsule Letters</h3>
+      <p class="hc-lead">Write a sealed note to the batch today. We open them all together at the <i>next</i> reunion. No peeking till then.</p>
+      <form id="capForm" onsubmit="return false">
+        <div class="field"><input type="text" id="capName" maxlength="30" placeholder="Your name (or stay anonymous)" style="width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:13px 15px;font-size:1rem"></div>
+        <div class="field"><textarea id="capMsg" maxlength="600" placeholder="Dear 9th Batch of the future…"></textarea></div>
+        <button class="btn btn-pink" id="capBtn" style="width:100%;max-width:300px;margin:0 auto;display:flex">Seal my letter 🔒</button>
+        <p class="formmsg" id="capFormMsg" role="status" style="text-align:center"></p>
+      </form>
+      <p class="cap-count"><b id="capCount">0</b> letters sealed for the future</p>
+
+      <div class="cap-reveal" id="capReveal">
+        <div class="cap-locked" id="capLocked">
+          <p class="cap-lock-title">🔒 The letters open in</p>
+          <div class="big-count" id="bigCount">
+            <div class="bc-unit"><b id="bc-d">00</b><span>Days</span></div>
+            <div class="bc-unit"><b id="bc-h">00</b><span>Hrs</span></div>
+            <div class="bc-unit"><b id="bc-m">00</b><span>Min</span></div>
+            <div class="bc-unit"><b id="bc-s">00</b><span>Sec</span></div>
+          </div>
+          <p class="cap-lock-sub">Sealed until Friday 3 July, 8:30 AM — the whole class opens them together.</p>
+        </div>
+        <div class="cap-open" id="capOpen" style="display:none">
+          <p class="cap-lock-title" style="color:var(--gold)">💌 The capsule is open!</p>
+          <div class="cap-letters" id="capLetters"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAME TAG GENERATOR -->
+    <div class="hub-card">
+      <h3>🏷️ Print Your Name Tag</h3>
+      <p class="hc-lead">The real ice-breaker — your <b>old class nickname</b> in big letters. Generate, print, wear.</p>
+      <div class="field" style="max-width:300px;margin:0 auto 10px"><input type="text" id="tagReal" maxlength="26" placeholder="Your name" style="width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:13px 15px;font-size:1rem"></div>
+      <div class="field" style="max-width:300px;margin:0 auto 10px"><input type="text" id="tagNick" maxlength="18" placeholder="Old class nickname" style="width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:13px 15px;font-size:1rem"></div>
+      <button class="btn btn-gold" id="tagBtn" style="margin:6px auto 0;display:flex">Make my name tag</button>
+      <div class="tag-prev" id="tagPrev" style="display:none"><canvas id="tagCanvas" width="1000" height="600"></canvas></div>
+      <div class="gen-actions" id="tagActions" style="display:none">
+        <button class="btn btn-pink" id="tagSave">Save name tag</button>
+      </div>
+    </div>
+
+    <!-- ANONYMOUS NICKNAMES (admin-only view) -->
+    <div class="hub-card">
+      <h3>🕵️ Secret Nicknames</h3>
+      <p class="hc-lead">Remember someone's old class nickname? Drop it in — anonymously. The committee gathers them all for a big reveal at the reunion. Submissions are hidden from everyone but the admin.</p>
+      <div class="field" style="max-width:320px;margin:0 auto 10px"><input type="text" id="nickWho" maxlength="34" placeholder="Whose nickname? (their real name)" style="width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:13px 15px;font-size:1rem"></div>
+      <div class="field" style="max-width:320px;margin:0 auto 10px"><input type="text" id="nickWhat" maxlength="34" placeholder="The nickname" style="width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:13px 15px;font-size:1rem"></div>
+      <button class="btn btn-gold" id="nickBtn" style="margin:6px auto 0;display:flex">Submit anonymously 🤫</button>
+      <p class="formmsg" id="nickMsg" role="status" style="text-align:center"></p>
+      <p class="cap-count"><b id="nickCount">0</b> nicknames collected (hidden)</p>
+      <div class="admin-zone" id="nickAdminZone">
+        <button class="btn btn-plain btn-sm" data-go="#/admin">🔒 Committee dashboard</button>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /surprises -->
+
+<!-- ════════════════════════════ ADMIN SCREEN ════════════════════════════ -->
+<div class="screen" id="screen-admin">
+  <div class="wrap">
+    <div class="screen-head">
+      <button class="backlink" data-go="#/surprises">← Back to surprises</button>
+      <p class="kicker">Committee only</p>
+      <h2>Admin Dashboard</h2>
+      <p class="screen-lead" id="adminLead">Locked.</p>
+    </div>
+
+    <div id="adminLogin" style="text-align:center">
+      <div class="hub-card" style="max-width:380px;margin:0 auto">
+        <h3 style="justify-content:center">🔒 Enter password</h3>
+        <div class="field" style="max-width:260px;margin:14px auto 0"><input type="password" id="adminPass" placeholder="Admin password" style="width:100%;background:var(--ink);color:var(--paper);border:0;border-radius:12px;padding:13px 15px;font-size:1rem"></div>
+        <button class="btn btn-pink" id="adminLoginBtn" style="margin:14px auto 0;display:flex">Unlock dashboard</button>
+        <p class="formmsg" id="adminMsg" role="status" style="text-align:center"></p>
+      </div>
+    </div>
+
+    <div id="adminPanel" style="display:none">
+      <div class="tabs" role="tablist" aria-label="Admin sections" style="margin-bottom:20px">
+        <button class="tab" role="tab" id="atab-photos" aria-selected="true"><b>Photos</b><span id="ac-photos">0</span></button>
+        <button class="tab" role="tab" id="atab-songs" aria-selected="false" tabindex="-1"><b>Songs</b><span id="ac-songs">0</span></button>
+        <button class="tab" role="tab" id="atab-nicks" aria-selected="false" tabindex="-1"><b>Nicknames</b><span id="ac-nicks">0</span></button>
+      </div>
+
+      <div id="apanel-photos">
+        <div class="gallery-tools"><button class="btn btn-plain btn-sm" id="adminRefresh">Refresh</button></div>
+        <div class="admin-grid" id="adminPhotos"></div>
+      </div>
+      <div id="apanel-songs" hidden>
+        <div class="gallery-tools"><button class="btn btn-gold btn-sm" id="dlSongsCsv">Download all (CSV)</button></div>
+        <div class="admin-list" id="adminSongs"></div>
+      </div>
+      <div id="apanel-nicks" hidden>
+        <div class="gallery-tools"><button class="btn btn-gold btn-sm" id="dlNicksCsv">Download all (CSV)</button></div>
+        <div class="admin-list" id="adminNicks"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /admin -->
+
 <!-- ════════════════════════════ GALLERY SCREEN ════════════════════════════ -->
 <div class="screen" id="screen-gallery">
   <div class="wrap">
@@ -687,6 +929,7 @@ footer .tag{font-family:var(--script);color:var(--gold);font-size:2rem;margin-to
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 /* =====================================================================
    DATABASE SETUP — paste your Firebase Realtime Database URL below.
@@ -702,11 +945,13 @@ var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function $(id){return document.getElementById(id)}
 
 /* ── routing: #/ home · #/flyer maker · #/gallery — plus #section scrolls on home ── */
-var SCREENS = {'#/':'screen-home','#/flyer':'screen-flyer','#/pay':'screen-pay','#/gallery':'screen-gallery'};
+var SCREENS = {'#/':'screen-home','#/flyer':'screen-flyer','#/pay':'screen-pay','#/surprises':'screen-surprises','#/admin':'screen-admin','#/gallery':'screen-gallery'};
 function showScreen(id){
-  ['screen-home','screen-flyer','screen-pay','screen-gallery'].forEach(function(s){
+  ['screen-home','screen-flyer','screen-pay','screen-surprises','screen-admin','screen-gallery'].forEach(function(s){
     $(s).classList.toggle('active', s===id);
   });
+  /* security: leaving the admin page always hides the panel (re-prompts on return) */
+  if(id!=='screen-admin'){ var p=$('adminPanel'),l=$('adminLogin'); if(p)p.style.display='none'; if(l)l.style.display=''; }
   scrollTo(0,0);
 }
 function route(){
@@ -714,6 +959,8 @@ function route(){
   if(SCREENS[h]){
     showScreen(SCREENS[h]);
     if(h==='#/gallery') load();
+    if(h==='#/surprises'){ load(); initSurprises(); }
+    if(h==='#/admin'){ initAdmin(); }
   }else{
     showScreen('screen-home');
     var el = document.querySelector(h);
@@ -783,6 +1030,79 @@ document.addEventListener('click', function(e){
 
 /* ── seamless ticker ── */
 (function(){var t=$('tick');t.innerHTML += t.innerHTML;})();
+
+/* ════════ WEEKLY UNLOCK DROPS ════════
+   EDIT HERE: change titles/body freely. 'date' is when each unlocks (WAT).
+   Locked cards show a live countdown; they pop open automatically on the day. */
+(function(){
+  var DROPS=[
+    {date:'2026-06-12T08:00:00+01:00', when:'Week 1 · Fri 12 June',
+     title:'The Saturday Playlist is open 🎶',
+     body:'Add your jams! The social-night playlist is built by the batch — drop your song requests in the WhatsApp group and watch the vibe take shape.'},
+    {date:'2026-06-19T08:00:00+01:00', when:'Week 2 · Fri 19 June',
+     title:'Throwback Photo Week 📸',
+     body:'Dig out your old school-days photos and post them in the group. Funniest, most "who-is-that?!" throwback wins bragging rights at the AGM.'},
+    {date:'2026-06-26T08:00:00+01:00', when:'Week 3 · Fri 26 June · 1 week left!',
+     title:'Rooms & Roommates revealed 🛏️',
+     body:'One week to go. Room arrangements drop this week — find out who you\'re bunking with and start the trash talk early.'},
+    {date:'2026-07-01T08:00:00+01:00', when:'Final · Wed 1 July',
+     title:'Packing List & Final Briefing 🎒',
+     body:'What to bring, what to wear for the photoshoot, departure logistics — everything you need for a smooth arrival Friday.'},
+    {date:'2026-07-03T16:00:00+01:00', when:'It\'s time · Fri 3 July',
+     title:'DOORS ARE OPEN 🎉',
+     body:'Welcome to Limbe, 9th Batch. Check in, hug your people, let the weekend begin. Anticipate — over. Enjoy!'}
+  ];
+  var grid=$('dropGrid');
+  function pad(n){return String(n).padStart(2,'0')}
+  var nextLockedEl=null, nextTarget=0;
+
+  function render(){
+    var now=Date.now();
+    nextLockedEl=null; nextTarget=0;
+    grid.innerHTML='';
+    var firstLocked=true;
+    DROPS.forEach(function(d){
+      var t=new Date(d.date).getTime();
+      var open=now>=t;
+      var el=document.createElement('div');
+      el.className='drop '+(open?'open':'locked');
+      if(open){
+        el.innerHTML='<span class="d-tag">Unlocked</span>'+
+          '<p class="d-when">'+d.when+'</p>'+
+          '<p class="d-title">'+d.title+'</p>'+
+          '<p class="d-body">'+d.body+'</p>';
+      }else{
+        if(firstLocked){el.classList.add('next');firstLocked=false;nextLockedEl=null;}
+        el.innerHTML='<span class="d-tag">🔒 Locked</span>'+
+          '<p class="d-when">'+d.when+'</p>'+
+          '<p class="d-title">??? </p>'+
+          '<p class="d-lockline">Unlocks in <b data-target="'+t+'">…</b></p>';
+      }
+      grid.appendChild(el);
+    });
+  }
+  function ticks(){
+    var now=Date.now();
+    var bs=grid.querySelectorAll('.d-lockline b[data-target]');
+    var needReveal=false;
+    bs.forEach(function(b){
+      var diff=+b.getAttribute('data-target')-now;
+      if(diff<=0){needReveal=true;return;}
+      var dd=Math.floor(diff/864e5),hh=Math.floor(diff/36e5)%24,mm=Math.floor(diff/6e4)%60,ss=Math.floor(diff/1e3)%60;
+      b.textContent = dd>0 ? dd+'d '+pad(hh)+'h '+pad(mm)+'m' : pad(hh)+'h '+pad(mm)+'m '+pad(ss)+'s';
+    });
+    if(needReveal){
+      render();
+      if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+        // little celebration when something unlocks while you're watching
+        var open=grid.querySelector('.drop.open:last-of-type');
+      }
+    }
+  }
+  render();
+  ticks();
+  setInterval(ticks,1000);
+})();
 
 /* ── programme tabs (kept exactly) ── */
 (function(){
@@ -1179,11 +1499,431 @@ function downloadEntryFlyer(a){
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(run);
 }
 
+/* ════════════════════════════════════════════════════════════
+   SURPRISES HUB — map, song requests, photo drop, capsule, name tags, nicknames
+   ════════════════════════════════════════════════════════════ */
+/* ╔══════ ADMIN PASSWORD — change this before launch ══════╗ */
+var ADMIN_PASS = "prenexsa2k9";
+/* ╚════════════════════════════════════════════════════════╝ */
+
+/* small DB helpers reused by song / photo / nickname features */
+function dbPath(name){ return FIREBASE_URL ? FIREBASE_URL.replace(/\/+$/,'')+"/"+name+".json" : null; }
+function dbPush(name,entry,store){
+  var url=dbPath(name);
+  if(!url){ store.push(entry); return Promise.resolve(true); }
+  return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(entry)}).then(function(r){return r.ok});
+}
+function dbAll(name,store){
+  var url=dbPath(name);
+  if(!url) return Promise.resolve(store.slice());
+  return fetch(url).then(function(r){return r.json()}).then(function(d){
+    d=d||{}; return Object.keys(d).map(function(k){var v=d[k];v.id=k;return v});
+  }).catch(function(){return []});
+}
+function adminUnlockUnused(){ return false; }
+
+var surprisesReady=false, mapObj=null, mapLayer=null;
+function initSurprises(){
+  setupCapsuleCount();
+  loadSongs();
+  loadPhotos();
+  loadNickCount();
+  if(surprisesReady){ setTimeout(refreshMap,120); return; }
+  surprisesReady=true;
+  setupCapsule();
+  setupNameTag();
+  setupSongs();
+  setupPhotoDrop();
+  setupNicknames();
+  setTimeout(initMap,150);
+}
+
+/* ── Saturday playlist: song requests (live list, admin download) ── */
+var songStore=[], songs=[];
+function loadSongs(){
+  dbAll('songs',songStore).then(function(arr){
+    songs=arr.sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+    $('songCount').textContent=songs.length;
+    $('songList').innerHTML=songs.map(function(s,i){
+      return '<div class="song-row"><span class="sr-i">'+(i+1)+'</span><span class="sr-t">'+escHtml(s.title)+'</span>'+(s.by?'<span class="sr-b">— '+escHtml(s.by)+'</span>':'')+'</div>';
+    }).join('');
+  });
+}
+function setupSongs(){
+  $('songAdd').addEventListener('click',function(){
+    var v=$('songInput').value.trim();
+    if(v.length<2){ toast('Type a song first 🎵'); return; }
+    $('songAdd').disabled=true;
+    dbPush('songs',{title:v,by:($('genName')&&$('genName').value.trim())||'',ts:Date.now()},songStore).then(function(ok){
+      $('songAdd').disabled=false;
+      if(ok){ $('songInput').value=''; loadSongs(); if(navigator.vibrate)navigator.vibrate(15); }
+      else toast('Could not add — check connection.');
+    });
+  });
+  $('songInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('songAdd').click(); });
+}
+
+/* ── Photo drop: save to DB, live wall, admin bulk download ── */
+var photoStore=[], photos=[];
+function loadPhotos(){
+  dbAll('photos',photoStore).then(function(arr){
+    photos=arr.sort(function(a,b){return (b.ts||0)-(a.ts||0)});
+    $('photoCount').textContent=photos.length;
+    $('photoWall').innerHTML=photos.slice(0,30).map(function(p){
+      return '<img src="'+p.img+'" alt="shared photo" loading="lazy">';
+    }).join('');
+  });
+}
+function setupPhotoDrop(){
+  $('photoDropInput').addEventListener('change',function(e){
+    var f=e.target.files && e.target.files[0]; if(!f) return;
+    var msg=$('photoDropMsg'); msg.className='formmsg'; msg.textContent='Uploading…';
+    var reader=new FileReader();
+    reader.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        /* resize to max 1000px + compress so it saves fast on 3G */
+        var MAX=1000, k=Math.min(1,MAX/Math.max(img.width,img.height));
+        var c=document.createElement('canvas');
+        c.width=Math.round(img.width*k); c.height=Math.round(img.height*k);
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        var q=0.78,out=c.toDataURL('image/jpeg',q);
+        while(out.length>260000&&q>0.4){q-=0.08;out=c.toDataURL('image/jpeg',q);}
+        $('photoDropInput').value='';
+        dbPush('photos',{img:out,ts:Date.now()},photoStore).then(function(ok){
+          msg.className='formmsg '+(ok?'ok':'err');
+          msg.textContent=ok?'Added to the wall! 📸':'Upload failed — try again.';
+          if(ok) loadPhotos();
+        });
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(f);
+  });
+}
+
+/* ── Secret nicknames: anyone submits, admin-only view ── */
+var nickStore=[], nicks=[];
+function loadNickCount(){
+  dbAll('nicknames',nickStore).then(function(arr){
+    nicks=arr.sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+    $('nickCount').textContent=nicks.length;
+  });
+}
+function setupNicknames(){
+  $('nickBtn').addEventListener('click',function(){
+    var who=$('nickWho').value.trim(), what=$('nickWhat').value.trim();
+    var msg=$('nickMsg'); msg.className='formmsg';
+    if(!who||!what){ msg.classList.add('err'); msg.textContent='Fill both — whose, and the nickname.'; return; }
+    $('nickBtn').disabled=true;
+    dbPush('nicknames',{who:who,nick:what,ts:Date.now()},nickStore).then(function(ok){
+      $('nickBtn').disabled=false;
+      if(ok){ msg.classList.add('ok'); msg.textContent='Submitted anonymously 🤫'; $('nickWho').value='';$('nickWhat').value=''; loadNickCount(); if(navigator.vibrate)navigator.vibrate(15); }
+      else { msg.classList.add('err'); msg.textContent='Could not submit — try again.'; }
+    });
+  });
+}
+
+/* ════════ ADMIN DASHBOARD (password every open · 5-min inactivity lock) ════════ */
+var adminIdleTimer=null;
+var ADMIN_IDLE_MS=5*60*1000;
+function lockAdmin(){
+  if(adminIdleTimer){ clearTimeout(adminIdleTimer); adminIdleTimer=null; }
+  $('adminPanel').style.display='none';
+  $('adminLogin').style.display='';
+  $('adminLead').textContent='Locked.';
+  $('adminPass').value='';
+  $('adminMsg').className='formmsg';$('adminMsg').textContent='';
+}
+function bumpAdminIdle(){
+  if($('screen-admin') && !$('screen-admin').classList.contains('active')) return;
+  if($('adminPanel').style.display==='none') return;
+  if(adminIdleTimer) clearTimeout(adminIdleTimer);
+  adminIdleTimer=setTimeout(function(){
+    lockAdmin();
+    toast('Dashboard locked after 5 minutes — enter the password again.');
+  },ADMIN_IDLE_MS);
+}
+function initAdmin(){
+  /* always require the password again when the page is opened */
+  lockAdmin();
+  setTimeout(function(){ try{$('adminPass').focus();}catch(e){} },120);
+}
+(function(){
+  function tryLogin(){
+    var v=$('adminPass').value;
+    if(v===ADMIN_PASS){
+      $('adminLogin').style.display='none';
+      $('adminPanel').style.display='';
+      $('adminLead').textContent='Tap any item to download it. Auto-locks after 5 min idle.';
+      loadAdminData();
+      bumpAdminIdle();
+    }else{
+      $('adminMsg').className='formmsg err';
+      $('adminMsg').textContent='Wrong password.';
+    }
+  }
+  $('adminLoginBtn').addEventListener('click',tryLogin);
+  $('adminPass').addEventListener('keydown',function(e){ if(e.key==='Enter') tryLogin(); });
+
+  /* any activity on the admin page resets the idle timer */
+  ['click','keydown','pointerdown','scroll'].forEach(function(ev){
+    document.addEventListener(ev,function(){
+      if($('screen-admin') && $('screen-admin').classList.contains('active')) bumpAdminIdle();
+    },{passive:true});
+  });
+  /* leaving the admin page locks it immediately */
+  addEventListener('hashchange',function(){
+    if(location.hash!=='#/admin') lockAdmin();
+  });
+
+  /* admin tabs */
+  var tabs=[['atab-photos','apanel-photos'],['atab-songs','apanel-songs'],['atab-nicks','apanel-nicks']];
+  tabs.forEach(function(pair,i){
+    $(pair[0]).addEventListener('click',function(){
+      tabs.forEach(function(p,j){
+        var on=i===j;
+        $(p[0]).setAttribute('aria-selected',on);
+        $(p[0]).tabIndex=on?0:-1;
+        $(p[1]).hidden=!on;
+      });
+    });
+  });
+
+  $('adminRefresh').addEventListener('click',loadAdminData);
+  $('dlSongsCsv').addEventListener('click',function(){
+    var rows=[['#','Song','Added by','Date']];
+    songs.forEach(function(s,i){ rows.push([i+1,s.title||'',s.by||'',s.ts?new Date(s.ts).toLocaleString():'']); });
+    downloadCSV(rows,'prenexsa-saturday-playlist.csv');
+  });
+  $('dlNicksCsv').addEventListener('click',function(){
+    var rows=[['Whose','Nickname','Date']];
+    nicks.forEach(function(n){ rows.push([n.who||'',n.nick||'',n.ts?new Date(n.ts).toLocaleString():'']); });
+    downloadCSV(rows,'prenexsa-secret-nicknames.csv');
+  });
+})();
+
+function fmtDate(ts){ try{return new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short'});}catch(e){return''} }
+
+function loadAdminData(){
+  /* PHOTOS */
+  dbAll('photos',photoStore).then(function(arr){
+    photos=arr.sort(function(a,b){return (b.ts||0)-(a.ts||0)});
+    $('ac-photos').textContent=photos.length;
+    $('photoCount').textContent=photos.length;
+    var g=$('adminPhotos');
+    if(!photos.length){ g.innerHTML='<div class="admin-empty" style="grid-column:1/-1">No photos yet.</div>'; }
+    else g.innerHTML=photos.map(function(p,i){
+      return '<div class="admin-photo"><img src="'+p.img+'" alt="photo '+(i+1)+'" loading="lazy">'+
+        '<div class="ap-meta">#'+(i+1)+' · '+fmtDate(p.ts)+'</div>'+
+        '<button class="ap-dl" data-img="'+i+'">Download</button></div>';
+    }).join('');
+    [].forEach.call(g.querySelectorAll('.ap-dl'),function(b){
+      b.addEventListener('click',function(){
+        var p=photos[+b.getAttribute('data-img')];
+        var a=document.createElement('a'); a.href=p.img; a.download='prenexsa-photo-'+(+b.getAttribute('data-img')+1)+'.jpg';
+        document.body.appendChild(a); a.click(); a.remove();
+      });
+    });
+  });
+  /* SONGS */
+  dbAll('songs',songStore).then(function(arr){
+    songs=arr.sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+    $('ac-songs').textContent=songs.length;
+    $('songCount').textContent=songs.length;
+    var l=$('adminSongs');
+    if(!songs.length){ l.innerHTML='<div class="admin-empty">No songs yet.</div>'; }
+    else l.innerHTML=songs.map(function(s,i){
+      return '<div class="admin-item"><span class="ai-i">'+(i+1)+'</span>'+
+        '<div class="ai-main"><b>'+escHtml(s.title)+'</b>'+(s.by?'<div class="ai-sub">added by '+escHtml(s.by)+'</div>':'')+'</div>'+
+        '<button class="ai-dl" data-song="'+i+'">Copy</button></div>';
+    }).join('');
+    [].forEach.call(l.querySelectorAll('.ai-dl'),function(b){
+      b.addEventListener('click',function(){
+        var s=songs[+b.getAttribute('data-song')];
+        var txt=s.title+(s.by?' (by '+s.by+')':'');
+        if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){toast('Copied: '+s.title)});
+        else toast(txt);
+      });
+    });
+  });
+  /* NICKNAMES */
+  dbAll('nicknames',nickStore).then(function(arr){
+    nicks=arr.sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+    $('ac-nicks').textContent=nicks.length;
+    $('nickCount').textContent=nicks.length;
+    var l=$('adminNicks');
+    if(!nicks.length){ l.innerHTML='<div class="admin-empty">No nicknames yet.</div>'; }
+    else l.innerHTML=nicks.map(function(n,i){
+      return '<div class="admin-item"><span class="ai-i">'+(i+1)+'</span>'+
+        '<div class="ai-main"><b>'+escHtml(n.who)+'</b><div class="ai-sub">“'+escHtml(n.nick)+'”</div></div>'+
+        '<button class="ai-dl" data-nick="'+i+'">Copy</button></div>';
+    }).join('');
+    [].forEach.call(l.querySelectorAll('.ai-dl'),function(b){
+      b.addEventListener('click',function(){
+        var n=nicks[+b.getAttribute('data-nick')];
+        var txt=n.who+' → '+n.nick;
+        if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){toast('Copied: '+txt)});
+        else toast(txt);
+      });
+    });
+  });
+}
+
+/* shared CSV helper */
+function downloadCSV(rows,filename){
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\r\n');
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:'text/csv;charset=utf-8'}));
+  a.download=filename;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(a.href)},4000);
+}
+
+/* ── Where Are We Now map (Leaflet + free tiles, geocoded via Nominatim) ── */
+var geoCache={};
+function initMap(){
+  if(typeof L==='undefined'){ return; }
+  if(mapObj) return;
+  mapObj=L.map('map',{scrollWheelZoom:false}).setView([6.5,12.5],5);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+    maxZoom:18, attribution:'© OpenStreetMap © CARTO'
+  }).addTo(mapObj);
+  mapLayer=L.layerGroup().addTo(mapObj);
+  refreshMap();
+}
+function geocode(city){
+  if(geoCache[city]) return Promise.resolve(geoCache[city]);
+  return fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(city))
+    .then(function(r){return r.json()})
+    .then(function(a){ if(a&&a[0]){ var p={lat:+a[0].lat,lon:+a[0].lon}; geoCache[city]=p; return p; } return null; })
+    .catch(function(){return null});
+}
+function refreshMap(){
+  if(!mapObj||!mapLayer) return;
+  var cities={};
+  attendees.forEach(function(a){ if(a.city){ var c=a.city.trim(); if(c) cities[c]=(cities[c]||0)+1; } });
+  var names=Object.keys(cities);
+  $('mapCount').textContent=names.length;
+  mapLayer.clearLayers();
+  var pts=[];
+  var pinIcon=L.divIcon({className:'',html:'<div style="width:18px;height:18px;border-radius:50%;background:#E5189A;border:3px solid #FFD23F;box-shadow:0 0 10px rgba(229,24,154,.8)"></div>',iconSize:[18,18],iconAnchor:[9,9]});
+  names.forEach(function(c,i){
+    setTimeout(function(){
+      geocode(c).then(function(p){
+        if(!p) return;
+        pts.push([p.lat,p.lon]);
+        L.marker([p.lat,p.lon],{icon:pinIcon}).addTo(mapLayer).bindPopup('<b>'+c+'</b><br>'+cities[c]+' coming');
+        if(pts.length>1){ try{ mapObj.fitBounds(pts,{padding:[40,40],maxZoom:8}); }catch(e){} }
+        else { mapObj.setView([p.lat,p.lon],7); }
+      });
+    }, i*1100);
+  });
+}
+
+/* ── Time-capsule letters (own DB path) ── */
+var CAPDB = FIREBASE_URL ? FIREBASE_URL.replace(/\/+$/,'')+"/capsule.json" : null;
+var capDemo=[];
+/* ╔══ Capsule opens Friday 3 July 2026, 8:30 AM WAT ══╗ */
+var CAP_OPEN = new Date('2026-07-03T08:30:00+01:00').getTime();
+/* ╚═══════════════════════════════════════════════════╝ */
+var capTimer=null;
+function setupCapsuleCount(){
+  if(!CAPDB){ $('capCount').textContent=capDemo.length; return; }
+  fetch(CAPDB).then(function(r){return r.json()}).then(function(d){ d=d||{}; $('capCount').textContent=Object.keys(d).length; }).catch(function(){});
+}
+function pad2(n){return String(n).padStart(2,'0')}
+function capRevealTick(){
+  if(!$('bc-d')) return; /* capsule UI not in DOM yet */
+  var diff=CAP_OPEN-Date.now();
+  if(diff>0){
+    var dd=Math.floor(diff/864e5),hh=Math.floor(diff/36e5)%24,mm=Math.floor(diff/6e4)%60,ss=Math.floor(diff/1e3)%60;
+    $('bc-d').textContent=pad2(dd);$('bc-h').textContent=pad2(hh);$('bc-m').textContent=pad2(mm);$('bc-s').textContent=pad2(ss);
+    return;
+  }
+  /* unlocked — reveal letters once */
+  if($('capOpen').style.display!==''){
+    $('capLocked').style.display='none';
+    $('capOpen').style.display='';
+    renderCapLetters();
+  }
+}
+/* one always-on ticker, started at page load — never blocked, never duplicated */
+setInterval(capRevealTick,1000);
+function renderCapLetters(){
+  var box=$('capLetters');
+  var paint=function(list){
+    list=list.sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+    box.innerHTML=list.length? list.map(function(c){
+      return '<div class="cap-letter"><div class="cl-msg">“'+escHtml(c.msg)+'”</div><div class="cl-by">— '+escHtml(c.name||'Anonymous')+'</div></div>';
+    }).join('') : '<div class="admin-empty">No letters were sealed.</div>';
+  };
+  if(!CAPDB){ paint(capDemo.slice()); return; }
+  fetch(CAPDB).then(function(r){return r.json()}).then(function(d){
+    d=d||{}; paint(Object.keys(d).map(function(k){return d[k]}));
+  }).catch(function(){ paint([]); });
+}
+function setupCapsule(){
+  $('capBtn').addEventListener('click',function(){
+    var msgEl=$('capFormMsg'); msgEl.className='formmsg';
+    var name=$('capName').value.trim()||'Anonymous';
+    var text=$('capMsg').value.trim();
+    if(text.length<10){ msgEl.classList.add('err'); msgEl.textContent='Write a little more first 💭'; return; }
+    $('capBtn').disabled=true;
+    var entry={name:name,msg:text,ts:Date.now()};
+    var done=function(ok){
+      if(ok){ msgEl.classList.add('ok'); msgEl.textContent='Sealed 🔒 See you on reunion morning.'; $('capMsg').value=''; $('capName').value=''; setupCapsuleCount(); if(navigator.vibrate)navigator.vibrate([20,40,20]); }
+      else { msgEl.classList.add('err'); msgEl.textContent='Could not seal it — check connection and try again.'; }
+      $('capBtn').disabled=false;
+    };
+    if(!CAPDB){ capDemo.push(entry); done(true); return; }
+    fetch(CAPDB,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(entry)})
+      .then(function(r){done(r.ok)}).catch(function(){done(false)});
+  });
+}
+
+/* ── Name-tag generator ── */
+function setupNameTag(){
+  var lastBlob=null;
+  function draw(){
+    var real=$('tagReal').value.trim(), nick=$('tagNick').value.trim();
+    if(!nick){ toast('Add the old nickname — that\'s the fun part!'); return; }
+    var c=$('tagCanvas'), g=c.getContext('2d'), W=1000, H=600;
+    g.fillStyle='#160D3F'; g.fillRect(0,0,W,H);
+    g.fillStyle='#FFD23F'; g.fillRect(0,0,W,108);
+    g.fillStyle='#E5189A'; g.fillRect(0,H-70,W,70);
+    g.textAlign='center';
+    g.fillStyle='#160D3F'; g.font='400 52px Anton, sans-serif';
+    g.fillText('PRENEXSA · REUNION 2026', W/2, 74);
+    g.fillStyle='#BCAAEC'; g.font='600 30px '+getComputedStyle(document.body).fontFamily;
+    g.fillText('THEY USED TO CALL ME', W/2, 188);
+    g.fillStyle='#FFD23F';
+    var ns=200; g.font=ns+'px Anton, sans-serif';
+    while(g.measureText(nick.toUpperCase()).width>W-120 && ns>70){ ns-=8; g.font=ns+'px Anton, sans-serif'; }
+    g.fillText(nick.toUpperCase(), W/2, 360);
+    if(real){ g.fillStyle='#FFFFFF'; g.font='700 60px Caveat, cursive'; g.fillText(real, W/2, 452); }
+    g.fillStyle='#FFFFFF'; g.font='600 26px '+getComputedStyle(document.body).fontFamily;
+    g.fillText('9th Batch · Limbe · 3–5 July', W/2, H-26);
+    $('tagPrev').style.display='block';
+    $('tagActions').style.display='flex';
+    c.toBlob(function(b){ lastBlob=b; }, 'image/png');
+  }
+  $('tagBtn').addEventListener('click',function(){
+    (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(draw);
+  });
+  $('tagSave').addEventListener('click',function(){
+    if(!lastBlob) return;
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(lastBlob); a.download='PRENEXSA-nametag.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(a.href)},4000);
+  });
+}
+
 route();
 load();
 if(!demo) setInterval(function(){
   if($('screen-gallery').classList.contains('active')) load();
-},25000);
-</script>
+},25000);</script>
 </body>
 </html>
